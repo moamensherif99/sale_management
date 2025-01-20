@@ -4,7 +4,8 @@
     'depends': ['sale_management'],
     'data': [
         "views/product_product_inherit.xml",
-        "views/product_template_inherit.xml"
+        "views/product_template_inherit.xml",
+        "views/product_category_inherit.xml",
     ],
     'installable': True,
     'application': False,
