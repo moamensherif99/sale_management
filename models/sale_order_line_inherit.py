@@ -16,4 +16,4 @@ class SaleOrderLine(models.Model):
                     raise ValidationError(
                         f"Discount limit exceeded! The maximum discount allowed for this product is {rec.product_id.discount_limit}%."
                     )
-            
+
