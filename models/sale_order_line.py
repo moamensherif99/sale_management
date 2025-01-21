@@ -1,7 +1,6 @@
 from odoo import models, fields, api
 from odoo.exceptions import ValidationError
 
-
 class SaleOrderLine(models.Model):
     _inherit = 'sale.order.line'
 
@@ -21,4 +20,3 @@ class SaleOrderLine(models.Model):
                     raise ValidationError(
                         f"Discount limit exceeded! The maximum discount allowed for this product is {rec.product_id.discount_limit}%."
                     )
-
