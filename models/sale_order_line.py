@@ -4,12 +4,10 @@ from odoo.exceptions import ValidationError
 class SaleOrderLine(models.Model):
     _inherit = 'sale.order.line'
 
-    exceed_discount_limit = fields.Boolean()
-
     @api.constrains('discount')
-    def _check_discount(self):
+    def _check_discount_limit(self):
         for rec in self:
-            if rec.exceed_discount_limit:
+            if rec.order_id.exceed_discount_limit:
                 continue
             if rec.discount:
                 if rec.product_id.discount_limit == 0 and rec.discount > rec.product_id.categ_id.discount_limit:

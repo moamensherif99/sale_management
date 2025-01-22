@@ -8,6 +8,9 @@
                 <attribute name="widget">statusbar</attribute>
                 <attribute name="statusbar_visible">draft,waiting,sent,sale</attribute>
             </xpath>
+            <xpath expr="//field[@name='validity_date']" position="before">
+                <field name="exceed_discount_limit" widget="checkbox"/>
+            </xpath>
         </field>
     </record>
 </odoo>
