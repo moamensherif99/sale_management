@@ -6,7 +6,7 @@
         <field name="arch" type="xml">
             <xpath expr="//field[@name='state']" position="attributes">
                 <attribute name="widget">statusbar</attribute>
-                <attribute name="statusbar_visible">draft,waiting,sent,sale</attribute>
+                <attribute name="statusbar_visible">draft,sent,waiting,sale</attribute>
             </xpath>
             <xpath expr="//field[@name='validity_date']" position="before">
                 <field name="exceed_discount_limit" widget="checkbox"/>

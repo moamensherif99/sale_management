@@ -6,8 +6,8 @@ class SaleOrder(models.Model):
 
     state = fields.Selection([
         ('draft', 'Quotation'),
-        ('waiting', 'Waiting For Approval'),
         ('sent', 'Quotation Sent'),
+        ('waiting', 'Waiting For Approval'),
         ('sale', 'Sales Order'),
         ('cancel', 'Cancelled'),
     ], string="Status", tracking=True, default='draft')
