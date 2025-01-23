@@ -18,7 +18,10 @@ class SaleOrder(models.Model):
     def action_confirm(self):
         res = super(SaleOrder, self).action_confirm()
         for rec in self:
-            if rec.exceed_discount_limit:
+            manger_group = self.env.ref('sales_team.group_sale_manager')
+            if manger_group and manger_group in self.env.user.groups_id:
+                continue
+            elif rec.exceed_discount_limit:
                 rec.state = 'waiting'
         return res
 
