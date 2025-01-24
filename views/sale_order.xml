@@ -11,6 +11,12 @@
             <xpath expr="//field[@name='validity_date']" position="before">
                 <field name="exceed_discount_limit" widget="checkbox"/>
             </xpath>
+            <xpath expr="//header/button[@name='action_cancel']" position="attributes">
+                <attribute name="invisible">state not in ['draft', 'sent', 'sale', 'waiting'] or not id or locked</attribute>
+            </xpath>
+            <xpath expr="//header/button[@name='action_confirm']" position="attributes">
+                <attribute name="invisible">state not in ['draft', 'waiting']</attribute>
+            </xpath>
         </field>
     </record>
 </odoo>
