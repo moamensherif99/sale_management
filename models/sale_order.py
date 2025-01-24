@@ -4,14 +4,19 @@ from odoo.exceptions import ValidationError
 class SaleOrder(models.Model):
     _inherit = 'sale.order'
 
-    state = fields.Selection([
-        ('draft', 'Quotation'),
-        ('sent', 'Quotation Sent'),
+    SALE_ORDER_STATE = [
+        ('draft', "Quotation"),
+        ('sent', "Quotation Sent"),
         ('waiting', 'Waiting For Approval'),
-        ('sale', 'Sales Order'),
-        ('done', 'Locked'),
-        ('cancel', 'Cancelled'),
-    ], string="Status", tracking=True, default='draft',index=True)
+        ('sale', "Sales Order"),
+        ('cancel', "Cancelled"),
+    ]
+    state = fields.Selection(
+        selection=SALE_ORDER_STATE,
+        string="Status",
+        readonly=True, copy=False, index=True,
+        tracking=3,
+        default='draft')
 
     exceed_discount_limit = fields.Boolean()
 
