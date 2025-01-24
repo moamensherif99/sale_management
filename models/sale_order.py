@@ -9,19 +9,22 @@ class SaleOrder(models.Model):
         ('sent', 'Quotation Sent'),
         ('waiting', 'Waiting For Approval'),
         ('sale', 'Sales Order'),
+        ('done', 'Locked'),
         ('cancel', 'Cancelled'),
-    ], string="Status", tracking=True, default='draft')
+    ], string="Status", tracking=True, default='draft',index=True)
 
     exceed_discount_limit = fields.Boolean()
 
 
     def action_confirm(self):
         res = super(SaleOrder, self).action_confirm()
+        manger_group = self.env.ref('sales_team.group_sale_manager', raise_if_not_found=False)
         for rec in self:
-            manger_group = self.env.ref('sales_team.group_sale_manager')
             if manger_group and manger_group in self.env.user.groups_id:
+                if rec.state == 'waiting':
+                    rec.state = 'sale'
                 continue
-            elif rec.exceed_discount_limit:
+            if rec.exceed_discount_limit:
                 rec.state = 'waiting'
         return res
 
