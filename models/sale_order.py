@@ -20,17 +20,32 @@ class SaleOrder(models.Model):
 
     exceed_discount_limit = fields.Boolean()
 
+    def _can_be_confirmed(self):
+        self.ensure_one()
+        return self.state in {'draft', 'sent', 'waiting'}
+
     def action_confirm(self):
+        res = super(SaleOrder, self).action_confirm()
         for rec in self:
-            if self.env.user.has_group('sales_team.group_sale_manager') and rec.state == 'waiting':
-                rec.state = 'sale'
+            if self.env.user.has_group('sales_team.group_sale_manager'):
+                if rec.state == 'waiting':
+                    rec.state = 'sale'
                 continue
-            if rec.exceed_discount_limit :
+            if rec.exceed_discount_limit:
                 rec.state = 'waiting'
-                continue
-        confirmable_orders = self.filtered(lambda order: order.state in ['draft', 'sent'])
-        if confirmable_orders:
-            res = super(SaleOrder, confirmable_orders).action_confirm()
-            return res
-        return True
+        return res
+
+    # def action_confirm(self):
+    #     for rec in self:
+    #         if self.env.user.has_group('sales_team.group_sale_manager') and rec.state == 'waiting':
+    #             rec.state = 'sale'
+    #             continue
+    #         if rec.exceed_discount_limit :
+    #             rec.state = 'waiting'
+    #             continue
+    #     confirmable_orders = self.filtered(lambda order: order.state in ['draft', 'sent'])
+    #     if confirmable_orders:
+    #         res = super(SaleOrder, confirmable_orders).action_confirm()
+    #         return res
+    #     return True
 
