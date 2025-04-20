@@ -7,6 +7,7 @@
         "views/product_template.xml",
         "views/product_category.xml",
         "views/product_product.xml",
+        "reports/sale_order_report.xml"
     ],
     'installable': True,
     'application': False,
