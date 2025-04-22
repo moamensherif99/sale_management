@@ -1,7 +1,11 @@
 <odoo>
     <template id="report_saleorder_custom" inherit_id="sale.report_saleorder_document">
-        <xpath expr="//thead/tr" position="inside">
-            <th>New Text</th>
+        <xpath expr="//table[@class='table table-sm o_main_table table-borderless mt-4']" position="after">
+            <t t-foreach="docs" t-as="o">
+                <strong>
+                    Delivery Date: <t t-esc="o.commitment_date"/>
+                </strong>
+            </t>
         </xpath>
     </template>
 </odoo>
