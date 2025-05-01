@@ -4,6 +4,8 @@ from odoo.exceptions import ValidationError
 class SaleOrderLine(models.Model):
     _inherit = 'sale.order.line'
 
+    extra_fees = fields.Monetary(currency_field="currency_id")
+
     @api.constrains('discount')
     def _check_discount_limit(self):
         for rec in self:

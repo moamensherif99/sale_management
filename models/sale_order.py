@@ -1,5 +1,7 @@
 from odoo import models, fields, api
 from odoo.exceptions import ValidationError
+from odoo.tools.populate import compute
+
 
 class SaleOrder(models.Model):
     _inherit = 'sale.order'
@@ -19,6 +21,13 @@ class SaleOrder(models.Model):
         default='draft')
 
     exceed_discount_limit = fields.Boolean()
+
+    total_extra_fees = fields.Monetary(compute='_compute_total_extra_fees',currency_field='currency_id',store=1)
+
+    @api.depends('order_line.extra_fees')
+    def _compute_total_extra_fees(self):
+        for rec in self:
+            rec.total_extra_fees = sum(rec.order_line.mapped('extra_fees'))
 
     def _can_be_confirmed(self):
         self.ensure_one()
