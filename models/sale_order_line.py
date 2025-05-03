@@ -6,6 +6,11 @@ class SaleOrderLine(models.Model):
 
     extra_fees = fields.Monetary(currency_field="currency_id")
 
+    def _prepare_invoice_line(self, **optional_values):
+        res= super(SaleOrderLine,self)._prepare_invoice_line( **optional_values)
+        res['extra_fees'] = self.extra_fees
+        return res
+
     @api.constrains('discount')
     def _check_discount_limit(self):
         for rec in self:
